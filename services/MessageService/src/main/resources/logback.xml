@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <logger name="com.dev.workspace.message_service.controller" level="DEBUG"/>
+    <logger name="org" level="ERROR"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date %highlight(%-5level) %cyan(%logger{5}@[%-4.30thread]) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>127.0.0.1:5000</destination>
+
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>
+                {
+                    "app.name":"MultiModuleProject",
+                    "app.port": "8080"
+                }
+            </customFields>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="logstash"/>
+        <appender-ref ref="stdout"/>
+    </root>
+</configuration>
